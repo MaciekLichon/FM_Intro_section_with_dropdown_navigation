@@ -1,0 +1,25 @@
+---
+import imageMob from '../images/image-hero-mobile.png';
+import imageDesktop from '../images/image-hero-desktop.png';
+---
+
+<div class="imageContainer">
+    <picture>
+        <source media="(min-width:768px)" srcset={imageDesktop}>
+        <img src={imageMob} alt="pattern" class="image">
+    </picture>
+</div>
+
+<style lang="scss">
+    .image {
+        width: 100%;
+    }
+
+    @media (min-width: 1024px) {
+
+        .imageContainer {
+            max-width: 480px;
+        }
+    }
+
+</style>

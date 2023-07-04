@@ -1,0 +1,388 @@
+---
+import logo from '../images/logo.svg';
+import navOpen from '../images/icon-menu.svg';
+import navClose from '../images/icon-close-menu.svg';
+import arrowDown from '../images/icon-arrow-down.svg';
+
+import todoIcon from '../images/icon-todo.svg';
+import calendarIcon from '../images/icon-calendar.svg';
+import remindersIcon from '../images/icon-reminders.svg';
+import planningIcon from '../images/icon-planning.svg';
+
+const navElems = [
+    {
+        title: 'Features',
+        items: [
+            {
+                name: 'Todo List',
+                icon: todoIcon
+            },
+            {
+                name: 'Calendar',
+                icon: calendarIcon
+            },
+            {
+                name: 'Reminders',
+                icon: remindersIcon
+            },
+            {
+                name: 'Planning',
+                icon: planningIcon
+            },
+        ]
+    },
+    {
+        title: 'Company',
+        items: [
+            {
+                name: 'History',
+            },
+            {
+                name: 'Our Team',
+            },
+            {
+                name: 'Blog',
+            }
+        ]
+    },
+    {
+        title: 'Careers'
+    },
+    {
+        title: 'About'
+    },
+]
+---
+
+<header>
+    <img src={logo} alt="logo">
+    
+    <button class="nav__openBtn">
+        <img src={navOpen} alt="nav open">
+    </button>
+
+    <nav class="nav">
+        <div class="nav__content">
+            <button class="nav__closeBtn">
+                <img src={navClose} alt="nav close">
+            </button>
+            <ul class="nav__menu">
+                {navElems.map(elem => (
+                    <li class="nav__menu-item">
+                        <div class="nav__menu-itemTitle">
+                            <a href="/" class="nav__link">{elem.title}</a>
+                            {elem.items && 
+                                <span>
+                                    <img src={arrowDown} alt="arrow" />    
+                                </span>
+                            }
+                        </div>
+                        {elem.items && 
+                            <div class="nav__menu-itemSublist">                        
+                                <ul>
+                                    {elem.items.map(i => (
+                                        <li>
+                                            <a href="/" class="nav__link">                                            
+                                                {i.icon && <img src={i.icon} alt="icon" />}
+                                                {i.name}
+                                            </a>
+                                        </li>
+                                    ))}    
+                                </ul>
+                            </div>
+                        }
+                    </li>
+                ))}
+            </ul>
+            <div class="nav__buttons">
+                <a href="/" class="nav__buttons-login">Login</a>
+                <a href="/" class="nav__buttons-register">Register</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<style lang="scss">
+    header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 16px;
+        margin: 16px 0 24px;
+
+        @media (min-width: 768px) {
+            max-width: 1360px;
+            margin: 24px auto 40px;
+            box-sizing: content-box;
+        }
+
+        @media (min-width: 1024px) {
+            margin-bottom: 67px;
+            justify-content: normal;
+            gap: 60px;
+        }
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .nav {
+        position: fixed;
+        top: 0;
+        right: 0;
+        background-color: var(--clr-white);
+        height: 100vh;
+        width: 0;
+        transform-style: preserve-3d;
+
+        transition: width 0.5s;
+
+        &::after {
+            content: '';
+            position: fixed;
+            right: 0;
+            top: 0;
+            height: 100vh;
+            width: 100vw;
+            background: var(--clr-900);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateZ(-1px);
+
+            transition: opacity 0.3s;
+        }
+
+        &.open {
+            width: 240px;
+
+            &::after {
+                opacity: 0.75;
+                visibility: visible;
+            }
+        }
+
+
+        &__content {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            overflow: hidden;
+        }
+        
+        &__closeBtn {
+            align-self: flex-end;
+            padding: 0;
+            width: 26px;
+        }
+
+        &__menu {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+
+            &-item {
+
+                &:hover &Sublist {
+                    grid-template-rows: 1fr;
+                }
+
+                &:hover &Title img {
+                    transform: rotate(-180deg);
+                }
+
+                &Title {
+                    display: flex;
+                    align-items: center;
+                    gap: 17px;
+
+                    img {
+                        transition: transform 0.3s;
+                    }
+                }
+
+                &Sublist {
+                    display: grid;
+                    grid-template-rows: 0fr;
+                    transition: grid-template-rows 0.3s;
+
+                    ul {
+                        overflow: hidden;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 16px;
+                        padding-left: 24px;
+                    }
+
+                    li {
+
+                        &:first-child {
+                            margin-top: 24px;
+                        }
+
+                        &:last-child {
+                            margin-bottom: 8px;
+                        }
+                    }
+                }
+            }
+
+        }
+
+        &__link {
+            color: var(--clr-500);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: color 0.3s;
+
+            &:hover {
+                color: var(--clr-900);
+            }
+
+            img {
+                width: 20px;
+
+                @media (min-width: 1024px) {
+                    width: 16px;
+                }
+            }
+        }
+
+        &__buttons {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            gap: 16px;
+            
+            &-login, &-register {
+                color: var(--clr-500);
+            }
+
+            &-login {
+                padding: 0 13px;
+                transition: color 0.3s;
+                
+                &:hover {
+                    color: var(--clr-900);
+                }
+            }
+            
+            &-register {
+                padding: 13px;
+                border: 1.5px solid var(--clr-500);
+                border-radius: 14px;
+                min-width: 100%;
+                align-self: flex-start;
+
+                transition: all 0.3s;
+
+                &:hover {
+                    border-color: var(--clr-900);
+                    color: var(--clr-900);
+                    background-color: transparent;
+                }
+            }
+        }
+
+    }
+    @media (min-width: 1024px) {
+        .nav {
+            position: relative;
+            height: auto;
+            width: auto;
+            background-color: none;
+            flex: 1;
+            font-size: 14px;
+            line-height: 16px;
+
+            &::after, &__openBtn, &__closeBtn {
+                display: none;
+            }
+
+            &__content {
+                padding: 0;
+                flex-direction: row;
+                overflow: visible;
+                align-items: center;
+                justify-content: space-between;
+                gap: 0;
+            }
+
+            &__menu {
+                flex-direction: row;
+                gap: 40px;
+
+                &-item {
+                    position: relative;
+
+                    &:nth-child(1) .nav__menu-itemSublist {
+                        right: 0;
+                    }
+                    &:nth-child(2) .nav__menu-itemSublist {
+                        left: 0;
+                    }
+
+                    &Title {
+                        gap: 8px;
+                    }
+
+                    &Sublist {
+                        position: absolute;
+                        top: calc(100% + 20px);
+                        background-color: var(--clr-white);
+                        border-radius: 10px;
+                        box-shadow: 0px 10px 40px 0px rgba(0, 0, 0, 0.15);
+
+                        ul {
+                            padding: 0 24px;
+                            width: max-content;
+                        }
+
+                        li:first-child {
+                            margin-top: 24px;
+                        }
+                        li:last-child {
+                            margin-bottom: 24px;
+                        }
+                    }
+                }
+            }
+
+            &__buttons {
+                flex-direction: row;
+                align-items: center;
+                gap: 40px;
+                text-align: left;
+                
+                &-login {
+                    padding: 0;
+                }
+                
+                &-register {
+                    padding: 13px 22px;
+                    border: 1.5px solid var(--clr-500);
+                    border-radius: 14px;
+                    min-width: auto;
+                    align-self: normal;
+                }
+            }
+        }
+    }
+</style>
+
+<script>
+    const btnOpen = document.querySelector('.nav__openBtn');
+    const btnClose = document.querySelector('.nav__closeBtn');
+    const nav = document.querySelector('.nav');
+
+    btnOpen.addEventListener('click', function() {
+        nav.classList.add('open');
+    });
+
+    btnClose.addEventListener('click', function() {
+        nav.classList.remove('open');
+    });
+</script>
