@@ -11,14 +11,20 @@ import imageDesktop from '../images/image-hero-desktop.png';
 </div>
 
 <style lang="scss">
+    .imageContainer {
+        max-height: 350px;
+        overflow: hidden;
+    }
     .image {
         width: 100%;
+        object-fit: cover;
+        object-position: top center;
     }
 
-    @media (min-width: 1024px) {
-
+    @media (min-width: 768px) {
         .imageContainer {
             max-width: 480px;
+            max-height: none;
         }
     }
 
